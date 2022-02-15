@@ -111,7 +111,7 @@ Cypress를 사용한 E2E 테스트 진행
 
 ### 👉 협업 툴
 
-- Notion: 칸반보드, 회의록
+- Notion: 칸반보드, 회의록 : [노션 페이지 바로가기](https://acute-cicada-d5b.notion.site/3-1-2f39726160f84e0c93958f274ab8b491)
 - Slack: 기본 메신저
 - Discord, Vsc Liveshare: 실시간 페어프로그래밍 / 코드 리뷰
 
