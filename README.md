@@ -4,7 +4,7 @@
 
 ## 🖥&nbsp;&nbsp;배포 주소
 
-👉 [배포링크 바로가기](https://week3-1-lsir7d6v0-react183.vercel.app/)
+👉 [배포링크 바로가기](https://week3-1-eight.vercel.app/)
 
 <br />
 
