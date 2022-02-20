@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface FAQButton {
+  isClicked: boolean;
+}
+
 export const contactsStyle = {
   margin: {
     M: '17px',
@@ -40,25 +44,16 @@ export const FAQButtonWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const FAQButton = styled.button`
+export const FAQButton = styled.button<FAQButton>`
+  /* background-color: ${({ isClicked }) => (isClicked ? 'black' : 'white')}; */
   width: 169px;
   height: 40px;
   margin: 0 ${contactsStyle.margin.M} 0 ${contactsStyle.margin.M};
-  color: ${({ theme }) => theme.color.textGray};
-
-  &:hover {
-    margin: 0 ${contactsStyle.margin.M} 0 ${contactsStyle.margin.M};
-    border-bottom: 2px solid ${({ theme }) => theme.color.pointRed};
-    color: ${({ theme }) => theme.color.pointRed};
-  }
-`;
-
-export const ClickedFAQButton = styled.button`
-  width: 169px;
-  height: 40px;
-  margin: 0 ${contactsStyle.margin.M} 0 ${contactsStyle.margin.M};
-  border-bottom: 2px solid ${({ theme }) => theme.color.pointRed};
-  color: ${({ theme }) => theme.color.pointRed};
+  border-bottom: 2px solid
+    ${({ isClicked, theme }) =>
+      isClicked ? theme.color.pointRed : theme.color.white};
+  color: ${({ isClicked, theme }) =>
+    isClicked ? theme.color.pointRed : theme.color.black};
 `;
 
 export const FAQList = styled.ul`

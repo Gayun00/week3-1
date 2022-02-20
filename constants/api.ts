@@ -5,5 +5,5 @@ export const BRAND = (conCategory1Id: string) =>
   `${BASE_URL}/con-category1s/${conCategory1Id}/nested`;
 export const ITEM = (conItemId: string) => `${BASE_URL}/con-items/${conItemId}`;
 export const FAQ_TYPE = `${BASE_URL}/qa-types`;
-export const FAQ_CONTENT = (qaTypeId: string) =>
+export const FAQ_CONTENT = (qaTypeId: number) =>
   `${BASE_URL}/qas?qaTypeId=${qaTypeId}`;

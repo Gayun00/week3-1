@@ -1,33 +1,17 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { GetStaticProps } from 'next';
+import React, { useState } from 'react';
 import FAQItem from '../../components/FAQItem';
+import { FAQ_CONTENT, FAQ_TYPE } from '../../constants/api';
 import * as S from '../../styles/contacts.styled';
 
-function Contacts() {
-  const [qaTypes, setQaTypes] = useState([]);
-  const [qas, setQas] = useState([]);
+function Contacts({ qaTypes, qas }) {
   const [clickedType, setClickedType] = useState(1);
-
-  async function fetchFAQTypes() {
-    const res = await axios.get('https://api2.ncnc.app/qa-types');
-    setQaTypes(res.data.qaTypes);
-  }
-  async function fetchFAQ(qaTypeId = 1) {
-    const res = await axios.get(
-      `https://api2.ncnc.app/qas?qaTypeId=${qaTypeId}`,
-    );
-    setQas(res.data.qas);
-  }
-
+  const [qaList, setQaList] = useState(qas[1]);
   function onClickFAQType(typeId) {
-    fetchFAQ(typeId);
     setClickedType(typeId);
+    setQaList(qas[typeId]);
   }
-
-  useEffect(() => {
-    fetchFAQTypes();
-    fetchFAQ();
-  }, []);
 
   return (
     <>
@@ -39,32 +23,44 @@ function Contacts() {
       <S.FAQTitleWrapper>
         <S.FAQTitle>자주 묻는 질문</S.FAQTitle>
         <S.FAQButtonWrapper>
-          {qaTypes.map((qaType) =>
-            qaType.id === clickedType ? (
-              <S.ClickedFAQButton
-                key={qaType.id}
-                onClick={() => onClickFAQType(qaType.id)}
-              >
-                {qaType.name}
-              </S.ClickedFAQButton>
-            ) : (
-              <S.FAQButton
-                key={qaType.id}
-                onClick={() => onClickFAQType(qaType.id)}
-              >
-                {qaType.name}
-              </S.FAQButton>
-            ),
-          )}
+          {qaTypes.map((qaType) => (
+            <S.FAQButton
+              isClicked={qaType.id === clickedType}
+              key={qaType.id}
+              onClick={() => onClickFAQType(qaType.id)}
+            >
+              {qaType.name}
+            </S.FAQButton>
+          ))}
         </S.FAQButtonWrapper>
       </S.FAQTitleWrapper>
       <S.FAQList>
-        {qas.map((qa) => (
+        {qaList.map((qa) => (
           <FAQItem key={qa.id} qa={qa.question} aw={qa.answer} />
         ))}
       </S.FAQList>
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const qaType = {
+    buy: 1,
+    sell: 2,
+  };
+  const qaTypesRes = await axios.get(FAQ_TYPE);
+  const buyQaRes = await axios.get(FAQ_CONTENT(qaType.buy));
+  const sellQaRes = await axios.get(FAQ_CONTENT(qaType.sell));
+
+  return {
+    props: {
+      qaTypes: qaTypesRes.data.qaTypes,
+      qas: {
+        1: buyQaRes.data.qas,
+        2: sellQaRes.data.qas,
+      },
+    },
+  };
+};
 
 export default Contacts;
